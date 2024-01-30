@@ -21,3 +21,20 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.mainTheme {
+  color: #20af84;
+}
+
+.border-bottom {
+  border-bottom: 1px solid;
+  border-color: #acacac;
+}
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

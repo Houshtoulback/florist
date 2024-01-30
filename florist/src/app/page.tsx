@@ -2,7 +2,6 @@ import Hero from "@/components/Hero";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Collections from "@/components/Collections";
 import Comments from "@/components/Comments";
-import Footer from "@/components/Footer";
 
 export default function homescreen() {
   return (
@@ -11,7 +10,6 @@ export default function homescreen() {
       <WhyChooseUs />
       <Collections />
       <Comments />
-      <Footer />
     </div>
   );
 }
