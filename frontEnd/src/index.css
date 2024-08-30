@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.mainTheme {
+  color: #20af84;
+}
+
+.border-bottom {
+  border-bottom: 1px solid;
+  border-color: #acacac;
+}
+
+/* loader */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #004b10;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #8d8d8d;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* loader */
+
+/* cart component */
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+/*  */
+
+/* truck */
+
+#tree {
+  animation: tree 8s ease-in infinite;
+}
+
+#speed {
+  animation: speed 4s ease-in-out infinite alternate;
+}
+
+#truck,
+#BOX {
+  animation: truck 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes tree {
+  from {
+    transform: translateX(850px);
+  }
+  to {
+    transform: translateX(-900px);
+  }
+}
+
+@keyframes speed {
+  from {
+    transform: translateX(15px);
+  }
+  to {
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes truck {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(2px);
+  }
+}
+
+/* truck */
