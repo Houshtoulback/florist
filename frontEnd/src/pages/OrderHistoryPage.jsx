@@ -32,7 +32,7 @@ export default function OrderHistoryPage() {
       dispatch({ type: "FETCH_REQUEST" });
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/mine`,
+          `https://gol-foroushi.liara.run/api/orders/mine`,
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           }

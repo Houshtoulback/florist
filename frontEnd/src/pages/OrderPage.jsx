@@ -36,7 +36,7 @@ export default function OrderPage() {
       try {
         dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/${orderId}`,
+          `https://gol-foroushi.liara.run/api/orders/${orderId}`,
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           }

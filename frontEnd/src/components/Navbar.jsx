@@ -5,6 +5,7 @@ import { FaShoppingCart, FaSignInAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { ImMenu, ImCross } from "react-icons/im";
 import { useContext, useState } from "react";
+import SearchBox from "./SearchBox";
 
 NavItem.propTypes = {
   content: PropTypes.node,
@@ -16,7 +17,7 @@ function NavItem(props) {
 
   return (
     <Link to={link}>
-      <div className='px-2 lg:px-5 py-5 font-bold lg:text-lg'>{content}</div>
+      <div className='px-2 lg:px-5 py-5 lg:font-bold lg:text-lg'>{content}</div>
     </Link>
   );
 }
@@ -45,8 +46,11 @@ export default function Navbar(props) {
 
   return (
     <div className='bg-white w-full h-20 flex justify-between items-center px-5 lg:px-20 xl:px-32 border-b'>
-      <div>
+      <div className='flex h-fit'>
         <img src='/assets/greenLogo.jpg' className='w-28' alt='Logo' />
+        <div className='hidden md:block'>
+          <SearchBox />
+        </div>
       </div>
 
       {/* Desktop Menu */}
@@ -54,7 +58,6 @@ export default function Navbar(props) {
         <NavItem content='Home' link='/' />
         <NavItem content='Shop' link='/shop' />
         <NavItem content='About Us' link='/about-us' />
-        <NavItem content='Testimonials' link='/testimonials' />
         <div className='relative'>
           <NavItem
             content={<FaShoppingCart color='#00AB84' size='25px' />}
@@ -121,15 +124,29 @@ export default function Navbar(props) {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className='absolute top-20 left-0 w-full bg-white shadow-md z-10 flex flex-col text-green-700 md:hidden'>
-          <NavItem content='Home' link='/' />
-          <NavItem content='Shop' link='/shop' />
-          <NavItem content='About Us' link='/about-us' />
-          <NavItem content='Testimonials' link='/testimonials' />
-          <div className='relative'>
-            <NavItem
-              content={<FaShoppingCart color='#00AB84' size='25px' />}
-              link='/cart'
-            />
+          {userInfo && (
+            <div className='flex justify-center px-4 py-2 text-sm font-bold text-gray-700'>
+              {userInfo.name}
+            </div>
+          )}
+          <div className='flex justify-center my-2'>
+            <SearchBox />
+          </div>
+
+          <div className='flex justify-center my-2' onClick={toggleMenu}>
+            <NavItem content='Home' link='/' />
+          </div>
+          <div className='flex justify-center my-2' onClick={toggleMenu}>
+            <NavItem content='Shop' link='/shop' />
+          </div>
+          <div className='flex justify-center my-2' onClick={toggleMenu}>
+            <NavItem content='About Us' link='/about-us' />
+          </div>
+          <div className='flex justify-center my-2' onClick={toggleMenu}>
+            <NavItem content='Testimonials' link='/testimonials' />
+          </div>
+          <div onClick={toggleMenu} className='flex justify-center relative'>
+            <NavItem content='Cart' link='/cart' />
             {cartItems > 0 && (
               <span className='absolute top-2 right-5 inline-flex items-center py-0.5 px-1.5 rounded-full text-xs font-medium bg-rose-500 text-white'>
                 {cartItems}
@@ -138,40 +155,32 @@ export default function Navbar(props) {
           </div>
           {userInfo ? (
             <>
-              <div className='block px-4 py-2 text-sm text-gray-700'>
-                {userInfo.name}
+              <div className='flex justify-center my-2' onClick={toggleMenu}>
+                <NavItem content='User Profile' link='/profile' />
               </div>
-              <Link
-                to='/profile'
-                className='block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700'
-                onClick={toggleMenu}
-              >
-                User Profile
-              </Link>
-              <Link
-                to='/orderhistory'
-                className='block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700'
-                onClick={toggleMenu}
-              >
-                Order History
-              </Link>
-              <Link
-                to='/'
+
+              <div className='flex justify-center my-2' onClick={toggleMenu}>
+                <NavItem content='Order History' link='/orderhistory' />
+              </div>
+
+              <div
                 onClick={() => {
                   signoutHandler();
                   toggleMenu();
                 }}
-                className='block hover:bg-gray-200 px-4 py-2 text-sm text-gray-700'
+                className='flex justify-center my-2'
               >
-                Sign Out
-              </Link>
+                <NavItem content='Sign Out' link='/' />
+              </div>
             </>
           ) : (
-            <NavItem
-              content={<FaSignInAlt color='#00AB84' size='25px' />}
-              link='/signin'
-              onClick={toggleMenu}
-            />
+            <div className='flex justify-center my-2' onClick={toggleMenu}>
+              {" "}
+              <NavItem
+                content={<FaSignInAlt color='#00AB84' size='25px' />}
+                link='/signin'
+              />
+            </div>
           )}
         </div>
       )}

@@ -14,7 +14,7 @@ export default function CartPageItems({ product }) {
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(
-      `http://localhost:5000/api/products/${item._id}`
+      `https://gol-foroushi.liara.run/api/products/${item._id}`
     );
     if (data.countInStock < quantity) {
       toast.warn("Product is out of stock");
@@ -65,8 +65,8 @@ export default function CartPageItems({ product }) {
               disabled={product.quantity > product.countInStock}
               className={
                 product.quantity > product.countInStock
-                  ? "cursor-not-allowed rounded-l bg-gray-300 py-1 px-3.5"
-                  : "cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-emerald-600 hover:text-blue-50"
+                  ? "cursor-not-allowed rounded-r bg-gray-300 py-1 px-3.5"
+                  : "cursor-pointer rounded-r bg-gray-100 py-1 px-3.5 duration-100 hover:bg-emerald-600 hover:text-blue-50"
               }
               onClick={() => updateCartHandler(product, product.quantity + 1)}
             >

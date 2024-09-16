@@ -40,7 +40,7 @@ export default function PlaceOrderPage() {
     try {
       dispatch({ type: "CREATE_REQUEST" });
       const { data } = await axios.post(
-        "http://localhost:5000/api/orders",
+        `https://gol-foroushi.liara.run/api/orders`,
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

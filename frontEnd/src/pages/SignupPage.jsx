@@ -28,7 +28,7 @@ export default function SignupPage() {
     }
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/users/signup",
+        `https://gol-foroushi.liara.run/api/users/signup`,
         { name, email, password }
       );
       ctxDispatch({ type: "USER_SIGNIN", payload: data });
@@ -134,7 +134,7 @@ export default function SignupPage() {
               <input
                 id='confirmpassword'
                 name='confirmpassword'
-                type='confirmpassword'
+                type='password'
                 required
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className='block w-full rounded-md border-0 py-1.5  px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6'

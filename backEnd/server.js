@@ -29,18 +29,18 @@ app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 
-// const __dirname = path.resolve();
+const __dirname = path.resolve();
 
-// app.use(express.static(path.join(__dirname, "../frontend/dist")));
-// app.get("*", (req, res) =>
-//   res.sendFile(path.join(__dirname, "../frontend/dist/index.html"))
-// );
+app.use(express.static(path.join(__dirname, "..", "frontEnd", "dist")));
+app.get("*", (req, res, next) =>
+  res.sendFile(path.join(__dirname, "..", "frontEnd", "dist", "index.html"))
+);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`server is listening to http://localhost:${port}`);
 });

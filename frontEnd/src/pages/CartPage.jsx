@@ -21,7 +21,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className='h-screen bg-gray-100 pt-20'>
+    <div className=' bg-gray-100 pt-20'>
       <Helmet>
         <title>Shopping Cart</title>
       </Helmet>

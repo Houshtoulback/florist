@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import ShopItem, { LoadingShopItem } from "../components/ShopItem";
 import { useState } from "react";
+// import FilterCollapse from "../components/filterCollapse";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -31,7 +32,9 @@ export default function ShoppingPage() {
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await axios.get(
+          `https://gol-foroushi.liara.run/api/products`
+        );
         dispatch({ type: "FETCH_SUCCESS", payload: response.data });
       } catch (e) {
         dispatch({
@@ -53,13 +56,13 @@ export default function ShoppingPage() {
   }
 
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto bg-gray-100'>
+      {/* {!error && <FilterCollapse />} */}
       <Helmet>
         <title>shop</title>
       </Helmet>
       <h1 className='text-center font-bold text-3x p-8'>Featured products</h1>
-
-      <div className='flex flex-wrap justify-center'>
+      <div className='flex flex-wrap justify-center lg:mx-3'>
         {loading ? (
           <div className='flex flex-wrap justify-center'>{componentArr}</div>
         ) : error ? (

@@ -73,7 +73,7 @@ export default function ShopItem(props) {
     const existItem = cartItems.find((x) => x._id == product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `http://localhost:5000/api/products/${item._id}`
+      `https://gol-foroushi.liara.run/api/products/${item._id}`
     );
     if (data.countInStock < quantity) {
       toast.warn("Product is out of stock");

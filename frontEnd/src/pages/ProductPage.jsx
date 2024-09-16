@@ -38,7 +38,7 @@ export default function ProductPage() {
       dispatch({ type: "FETCH_REQUEST" });
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/products/slug/${slug}`
+          `https://gol-foroushi.liara.run/api/products/slug/${slug}`
         );
         dispatch({ type: "FETCH_SUCCESS", payload: response.data });
       } catch (e) {
@@ -57,7 +57,7 @@ export default function ProductPage() {
     const existItem = cart.cartItems.find((x) => x._id == product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(
-      `http://localhost:5000/api/products/${product._id}`
+      `https://gol-foroushi.liara.run/api/products/${product._id}`
     );
     if (data.countInStock < quantity) {
       toast.warn("Product is out of stock");
