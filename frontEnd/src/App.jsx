@@ -19,6 +19,8 @@ import OrderPage from "./pages/OrderPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
+import SearchPage from "./pages/SearchPage";
+import AboutUs from "./pages/AboutUsPage";
 
 export default function App() {
   const { state } = useContext(Store);
@@ -44,7 +46,9 @@ export default function App() {
             <Route path='/order/:id' element={<OrderPage />} />
             <Route path='/orderhistory' element={<OrderHistoryPage />} />
             <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/search' element={<SearchPage />} />
             <Route path='*' element={<NotFound />} />
+            <Route path='/about-us' element={<AboutUs />} />
           </Routes>
           <Footer />
         </div>

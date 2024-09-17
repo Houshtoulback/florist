@@ -1,10 +1,8 @@
-//fix the try again button, usestate and the handler function
-
-import { useEffect, useReducer } from "react";
-import { Helmet } from "react-helmet-async";
 import axios from "axios";
+import { useEffect, useReducer, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 import ShopItem, { LoadingShopItem } from "../components/ShopItem";
-import { useState } from "react";
 import FilterCollapse from "../components/filterCollapse";
 
 const reducer = (state, action) => {
@@ -12,7 +10,12 @@ const reducer = (state, action) => {
     case "FETCH_REQUEST":
       return { ...state, loading: true };
     case "FETCH_SUCCESS":
-      return { ...state, products: action.payload, loading: false };
+      return {
+        ...state,
+        products: action.payload.products,
+        countProducts: action.payload.countProducts,
+        loading: false,
+      };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
@@ -20,31 +23,42 @@ const reducer = (state, action) => {
   }
 };
 
-export default function ShoppingPage() {
+export default function SearchPage() {
   const [reload, setReload] = useState(false);
-  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: "",
-    products: [],
-  });
+  const { search } = useLocation();
+
+  const sp = new URLSearchParams(search);
+
+  const category = sp.get("category") || "all";
+  const query = sp.get("query") || "all";
+  const price = sp.get("price") || "all";
+  const rating = sp.get("rating") || "all";
+  const order = sp.get("order") || "newest";
+
+  const [{ loading, error, products, countProducts }, dispatch] = useReducer(
+    reducer,
+    {
+      loading: true,
+      error: "",
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: "FETCH_REQUEST" });
       try {
-        const response = await axios.get(
-          `https://gol-foroushi.liara.run/api/products`
+        const { data } = await axios.get(
+          `/api/products/search?query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
         );
-        dispatch({ type: "FETCH_SUCCESS", payload: response.data });
-      } catch (e) {
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
+      } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
-          payload: "problem with fetching data",
+          payload: err,
         });
       }
     };
     fetchData();
-  }, [reload]);
+  }, [category, order, price, query, rating]);
 
   const handleReload = () => {
     setReload(!reload);
@@ -59,7 +73,7 @@ export default function ShoppingPage() {
     <div className='container mx-auto bg-gray-100'>
       {!error && <FilterCollapse />}
       <Helmet>
-        <title>shop</title>
+        <title>Search products</title>
       </Helmet>
       <h1 className='text-center font-bold text-3x p-8'>Featured products</h1>
       <div className='flex flex-wrap justify-center lg:mx-3'>
@@ -74,6 +88,10 @@ export default function ShoppingPage() {
             >
               Try again
             </div>
+          </div>
+        ) : countProducts === 0 ? (
+          <div className='p-20 rounded-lg text-lg bg-gray-300 my-10 text-center'>
+            <p className='text-slate-800 m-6'>no products found</p>
           </div>
         ) : (
           products.map((product) => {

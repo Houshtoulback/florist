@@ -3,19 +3,38 @@ import { FaCaretDown } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import CustomSlider from "./slider";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function FilterCollapse() {
   const [isOpen, setIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const { search } = useLocation();
+
+  const sp = new URLSearchParams(search);
+
+  const category = sp.get("category") || "all";
+  const query = sp.get("query") || "all";
+  const price = sp.get("price") || "all";
+  const rating = sp.get("rating") || "all";
+  const order = sp.get("order") || "newest";
+
+  const getFilterUrl = (filter) => {
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterRating = filter.rating || rating;
+    const filterPrice = filter.price || price;
+    const sortOrder = filter.order || order;
+
+    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}`;
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:3000/api/products/categories`
+          `https://gol-foroushi.liara.run/api/products/categories`
         );
         setCategories(data);
       } catch (err) {
@@ -59,11 +78,17 @@ export default function FilterCollapse() {
           <div className='flex-1 text-center mb-4'>
             <h3 className='font-semibold mb-2'>Filter by Categories</h3>
             <div className='space-y-2'>
-              {categories.map((category) => (
-                <Link to={`/search?category=${category}`} key={category}>
+              <Link to={getFilterUrl({ category: "all" })}>
+                <label className='block my-1'>
+                  <input type='checkbox' className='mr-2' />
+                  any
+                </label>
+              </Link>
+              {categories.map((c) => (
+                <Link to={getFilterUrl({ category: c })} key={c}>
                   <label className='block my-1'>
                     <input type='checkbox' className='mr-2' />
-                    {category}
+                    {c}
                   </label>
                 </Link>
               ))}
@@ -75,22 +100,33 @@ export default function FilterCollapse() {
             <h3 className='font-semibold mb-2'>Filter by Rating</h3>
             <div className='space-y-2'>
               <label className='block'>
-                <input type='radio' name='rating' className='mr-2' />1 Star & Up
+                <Link to={getFilterUrl({ rating: 1 })}>
+                  <input type='radio' name='rating' className='mr-2' />1 Star &
+                  Up
+                </Link>
               </label>
               <label className='block'>
-                <input type='radio' name='rating' className='mr-2' />2 Stars &
-                Up
+                <Link to={getFilterUrl({ rating: 2 })}>
+                  <input type='radio' name='rating' className='mr-2' />2 Stars &
+                  Up
+                </Link>
               </label>
               <label className='block'>
-                <input type='radio' name='rating' className='mr-2' />3 Stars &
-                Up
+                <Link to={getFilterUrl({ rating: 3 })}>
+                  <input type='radio' name='rating' className='mr-2' />3 Stars &
+                  Up
+                </Link>
               </label>
               <label className='block'>
-                <input type='radio' name='rating' className='mr-2' />4 Stars &
-                Up
+                <Link to={getFilterUrl({ rating: 4 })}>
+                  <input type='radio' name='rating' className='mr-2' />4 Stars &
+                  Up
+                </Link>
               </label>
               <label className='block'>
-                <input type='radio' name='rating' className='mr-2' />5 Stars
+                <Link to={getFilterUrl({ rating: 5 })}>
+                  <input type='radio' name='rating' className='mr-2' />5 Stars
+                </Link>
               </label>
             </div>
           </div>

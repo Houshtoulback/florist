@@ -1,14 +1,41 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReactSlider from "react-slider";
 
 export default function CustomSlider() {
   const [values, setValues] = useState([100, 500]);
+  const navigate = useNavigate();
 
   const handleChange = (newValues) => {
-    //  sliders don't overlap :
+    // Prevent sliders from overlapping
     if (newValues[0] < values[1] && newValues[1] > values[0]) {
       setValues(newValues);
     }
+  };
+
+  const { search } = useLocation();
+
+  const sp = new URLSearchParams(search);
+
+  const category = sp.get("category") || "all";
+  const query = sp.get("query") || "all";
+  const price = sp.get("price") || "all";
+  const rating = sp.get("rating") || "all";
+  const order = sp.get("order") || "newest";
+
+  const getFilterUrl = (filter) => {
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterRating = filter.rating || rating;
+    const filterPrice = filter.price || price;
+    const sortOrder = filter.order || order;
+
+    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}`;
+  };
+
+  const handleButtonClick = () => {
+    const priceRange = `${values[0]}-${values[1]}`;
+    navigate(getFilterUrl({ price: priceRange }));
   };
 
   return (
@@ -30,6 +57,12 @@ export default function CustomSlider() {
         <span>${values[0]}</span>
         <span>${values[1]}</span>
       </div>
+      <button
+        onClick={handleButtonClick}
+        className='mt-4 px-4 py-2 bg-green-700 text-white rounded'
+      >
+        Apply Filter
+      </button>
     </div>
   );
 }

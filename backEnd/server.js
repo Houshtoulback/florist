@@ -7,6 +7,7 @@ import seedRouter from "./routes/seedRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
+import mailRouter from "./routes/mailRoutes.js";
 
 dotenv.config();
 mongoose
@@ -28,6 +29,7 @@ app.use("/api/seed", seedRouter);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/send-email", mailRouter);
 
 const __dirname = path.resolve();
 
@@ -42,5 +44,5 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`server is listening to http://localhost:${port}`);
+  console.log(`server is listening to port: ${port}`);
 });
